@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: mawd-starter
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: LINER_API_KEY
+        sync: false
+      - key: STIBEE_API_KEY
+        sync: false
+      - key: STIBEE_LIST_ID
+        sync: false
+      - key: CHANNEL_ACCESS_KEY
+        sync: false
+      - key: CHANNEL_ACCESS_SECRET
+        sync: false
+      - key: VAPI_API_KEY
+        sync: false
+      - key: VAPI_ASSISTANT_ID
+        sync: false
+      - key: VAPI_PHONE_NUMBER_ID
+        sync: false

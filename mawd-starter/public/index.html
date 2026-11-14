@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>서비스 이름 — 대기 신청</title>
+<style>
+  :root { --bg:#fafafa; --fg:#111; --muted:#666; --accent:#3b5bfd; --card:#fff; --line:#e5e5e5; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0f1115; --fg:#f2f2f2; --muted:#9aa0a6; --card:#181b21; --line:#2a2e36; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
+  main { max-width: 560px; margin: 0 auto; padding: 72px 16px; }
+  h1 { font-size: 34px; line-height: 1.25; margin: 0 0 12px; }
+  p.lead { color: var(--muted); font-size: 17px; line-height: 1.6; margin: 0 0 32px; }
+  form { display:flex; flex-direction:column; gap:10px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; }
+  input { font: inherit; padding: 12px 14px; border:1px solid var(--line); border-radius:10px; background:transparent; color:inherit; }
+  button { font: inherit; font-weight:600; padding: 12px; border:0; border-radius:10px; background:var(--accent); color:#fff; cursor:pointer; }
+  #msg { min-height: 1.4em; color: var(--muted); font-size: 14px; }
+  ul { color: var(--muted); line-height: 1.8; padding-left: 18px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>[한 줄 가치 제안]<br>예: 혼자서도 CS 24시간 응대</h1>
+  <p class="lead">[누가 · 어떤 문제를 · 어떻게 해결하는지 한두 문장]</p>
+  <ul>
+    <li>[핵심 기능 1]</li>
+    <li>[핵심 기능 2]</li>
+    <li>[핵심 기능 3]</li>
+  </ul>
+  <form id="f">
+    <input name="name" placeholder="이름" autocomplete="name">
+    <input name="email" type="email" placeholder="이메일" required autocomplete="email">
+    <button>출시 알림 받기</button>
+    <div id="msg"></div>
+  </form>
+</main>
+<script>
+  document.getElementById("f").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target), msg = document.getElementById("msg");
+    msg.textContent = "등록 중...";
+    try {
+      const r = await fetch("/api/waitlist", { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: fd.get("name"), email: fd.get("email") }) });
+      msg.textContent = r.ok ? "등록됐어요! 출시되면 알려드릴게요." : "오류가 났어요. 다시 시도해주세요.";
+      if (r.ok) e.target.reset();
+    } catch { msg.textContent = "네트워크 오류"; }
+  });
+</script>
+</body>
+</html>

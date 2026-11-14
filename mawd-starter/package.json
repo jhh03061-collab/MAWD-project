@@ -1,0 +1,13 @@
+{
+  "name": "mawd-starter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MAWD 해커톤용 1인 AI 자동화 스타터 (채널톡/스티비/Vapi/Liner 연동 뼈대)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
